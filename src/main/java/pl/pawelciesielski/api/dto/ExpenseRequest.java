@@ -16,7 +16,7 @@ import java.time.OffsetDateTime;
 public class
 ExpenseRequest {
     private Category categoryOfExpense;
-    private double totalSumOfExpenses;
+    private double value;
     private String description;
 
 }
