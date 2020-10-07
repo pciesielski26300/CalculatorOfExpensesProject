@@ -1,7 +1,10 @@
 package pl.pawelciesielski.persistance;
 
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.Getter;
 
 import javax.persistence.*;
 import java.time.OffsetDateTime;
@@ -12,21 +15,22 @@ import java.util.UUID;
 @Table(name = "EXPENSES")
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
 public class Expense {
     @Id
     @GeneratedValue
     @Column(name = "EXPENSE_ID")
-    private Long id;
+    private UUID id;
     @Column(name = "CATEGORY")
     @Enumerated(EnumType.STRING)
     private Category categoryOfExpense;
     @Column(name = "VALUE")
-    private double value;
+    private double totalSumOfExpenses;
     @Column(name = "DESCRIPTION")
     private String description;
-    @Column(name = "DATA")
-    private OffsetDateTime offsetDateTime;
+    @Column
+    private OffsetDateTime dateTime;
+
+
 
 
 }
