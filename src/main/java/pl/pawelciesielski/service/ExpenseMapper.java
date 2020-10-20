@@ -4,7 +4,11 @@ package pl.pawelciesielski.service;
 import org.springframework.stereotype.Component;
 import pl.pawelciesielski.api.dto.ExpenseRequest;
 import pl.pawelciesielski.api.dto.ExpenseResponse;
+import pl.pawelciesielski.persistance.Category;
 import pl.pawelciesielski.persistance.Expense;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class ExpenseMapper {
@@ -16,7 +20,8 @@ public class ExpenseMapper {
                 .description(expenseRequest.getDescription())
                 .build();
     }
-    public ExpenseResponse map(Expense expense){
+
+    public ExpenseResponse map(Expense expense) {
         return ExpenseResponse
                 .builder()
                 .categoryOfExpense(expense.getCategoryOfExpense())
@@ -24,7 +29,14 @@ public class ExpenseMapper {
                 .value(expense.getValue())
                 .offsetDateTime(expense.getOffsetDateTime())
                 .build();
-
     }
 
+
+    public List<ExpenseResponse> map(List<Expense> byCategoryOfExpense) {
+        return byCategoryOfExpense
+                .stream()
+                .map(this::map)
+                .collect(Collectors.toList());
+
+    }
 }

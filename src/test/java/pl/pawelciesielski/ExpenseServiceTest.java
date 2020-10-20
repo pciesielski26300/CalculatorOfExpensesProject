@@ -10,8 +10,10 @@ import pl.pawelciesielski.service.ExpenseMapper;
 import pl.pawelciesielski.service.ExpenseService;
 
 import java.time.OffsetDateTime;
+import java.util.Optional;
 
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class ExpenseServiceTest {
     private ExpenseRepository repository;
@@ -66,5 +68,18 @@ public class ExpenseServiceTest {
 
         //when/then
         Assertions.assertThrows(IllegalArgumentException.class, () -> service.save(expense));
+    }
+
+    @Test
+    public void findById_correctId_foundExpense(){
+        //given
+        Expense expense = new Expense(5L, Category.CAR, 5, "Koła", OffsetDateTime.now());
+
+        when(repository.findById(5L)).thenReturn(Optional.of(expense));
+
+        Expense byId = service.findById(5L);
+
+        Assertions.assertEquals(expense, byId);
+
     }
 }
