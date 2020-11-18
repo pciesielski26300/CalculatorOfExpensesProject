@@ -1,5 +1,6 @@
 package pl.pawelciesielski.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.pawelciesielski.api.dto.ExpenseRequest;
@@ -10,50 +11,52 @@ import pl.pawelciesielski.persistance.Expense;
 import pl.pawelciesielski.persistance.ExpenseRepository;
 
 
-import java.time.OffsetDateTime;
-import java.util.ArrayList;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 
 @Service
+@RequiredArgsConstructor
 public class ExpenseService {
     private final ExpenseMapper mapper;
     private final ExpenseRepository expenseRepository;
+    private final ExpenseValidator expenseValidator;
 
 
-    @Autowired
-    public ExpenseService(ExpenseMapper mapper, ExpenseRepository expenseRepository) {
-        this.mapper = mapper;
-        this.expenseRepository = expenseRepository;
 
-    }
+
 
     public void save(Expense expense) {
-        ExpenseValidator expenseValidator = new ExpenseValidator();
         expenseValidator.isNull(expense);
         expenseRepository.save(expense);
     }
 
     public void save(ExpenseRequest expenseRequest) {
         Expense expense = mapper.map(expenseRequest);
-        expense.setOffsetDateTime(OffsetDateTime.now());
+        expense.setLocalDate(LocalDate.now());
         save(expense);
     }
 
 
-    public Expense findById(Long uuid) {
-        return expenseRepository.findById(uuid).orElseThrow();
+    public Expense findById(Long id) {
+        return expenseRepository.findById(id).orElseThrow();
     }
 
-    public ExpenseResponse findExpense(Long uuid) {
-        final Expense expense = findById(uuid);
+    public ExpenseResponse findExpense(Long id) {
+        final Expense expense = findById(id);
         return mapper.map(expense);
     }
 
-    public void deleteById(Long uuid) {
-        expenseRepository.deleteById(uuid);
+    public void deleteById(Long id) {
+        if (!expenseRepository.existsById(id)) {
+            throw new NoSuchElementException("Expense with that ID does not exist");
+        }
+        expenseRepository.deleteById(id);
     }
-    // sum total val of category, czy musze robic jakies query?
+
+
+
 
     public List<ExpenseResponse> findByCategoryOfExpense(Category categoryOfExpense) {
         List<Expense> byCategoryOfExpense = expenseRepository.findByCategoryOfExpense(categoryOfExpense);
@@ -68,8 +71,8 @@ public class ExpenseService {
                 .build();
     }
 
-    public List<ExpenseResponse> findByOffsetDateTime(OffsetDateTime offsetDateTime) {
-        List<Expense> expenses = expenseRepository.findByOffsetDateTime(offsetDateTime);
+    public List<ExpenseResponse> findByLocalDate(LocalDate localDate) {
+        List<Expense> expenses = expenseRepository.findByLocalDate(localDate);
         return mapper.map(expenses);
     }
 

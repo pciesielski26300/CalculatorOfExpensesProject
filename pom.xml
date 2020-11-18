@@ -27,6 +27,8 @@
         <mockito-core.version>3.4.6</mockito-core.version>
         <assertj-core.version>3.16.1</assertj-core.version>
 
+
+
     </properties>
 
     <dependencies>

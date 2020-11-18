@@ -1,6 +1,7 @@
 package pl.pawelciesielski.api.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,6 +10,7 @@ import pl.pawelciesielski.persistance.Category;
 import pl.pawelciesielski.persistance.Expense;
 
 import javax.persistence.Column;
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
 
 @Data
@@ -20,7 +22,7 @@ public class ExpenseResponse {
     private Category categoryOfExpense;
     private double value;
     private String description;
-    private OffsetDateTime offsetDateTime;
+    private LocalDate localDate;
 
 
 }

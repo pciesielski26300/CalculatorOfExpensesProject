@@ -1,4 +1,6 @@
 spring:
+  jackson:
+    date-format: yyyy-MM-dd
   datasource:
     username: "postgres"
     password: "qwerty"

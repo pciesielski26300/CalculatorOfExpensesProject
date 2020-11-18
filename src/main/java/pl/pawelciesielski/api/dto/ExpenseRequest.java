@@ -15,7 +15,7 @@ import java.time.OffsetDateTime;
 @Builder
 public class
 ExpenseRequest {
-    private long id;
+    private Long id;
     private Category categoryOfExpense;
     private double value;
     private String description;
