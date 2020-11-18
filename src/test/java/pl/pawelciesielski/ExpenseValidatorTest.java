@@ -17,7 +17,7 @@ import java.util.NoSuchElementException;
 
 import static org.mockito.Mockito.*;
 
-public class expenseValidatorTest {
+public class ExpenseValidatorTest {
     private ExpenseValidator validator;
 
     @BeforeEach
