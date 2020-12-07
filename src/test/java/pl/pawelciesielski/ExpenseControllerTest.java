@@ -41,7 +41,7 @@ public class ExpenseControllerTest {
 
 
     @Test
-    public void save_allParamsOk_savedCorretclly() throws Exception {
+    public void save_allParamsOk_savedCorrectly() throws Exception {
         mockMvc.perform(
                 post("/api/expense")
                         .content("{\n" +
@@ -64,8 +64,7 @@ public class ExpenseControllerTest {
         verify(service, times(1)).save(expense);
     }
 
-    //get nie podaje kontentu,
-//delete z verify
+
     @Test
     public void findById_allParamsOk_foundExpense() throws Exception {
         ExpenseResponse expenseResponse = ExpenseResponse
@@ -105,59 +104,30 @@ public class ExpenseControllerTest {
                 .localDate(LocalDate.of(2020, 10, 26))
                 .build();
         List<ExpenseResponse> list = List.of(expenseResponse, expenseResponse2);
-       double value = 1000;
 
-        when(service.findByCategoryOfExpense(Category.CAR)).thenReturn(list);
-        when(expensesResponse.getTotal()).thenReturn(value);
+        ExpensesResponse expensesResponse = ExpensesResponse
+                .builder()
+                .expenses(list)
+                .build();
+
+        when(service.getExpensesResponse(Category.CAR)).thenReturn(expensesResponse);
+
 
         mockMvc.perform(get("http://localhost:8080/api/expensesResponse?categoryOfExpense=CAR").contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$[0].expenses.id").value(10012))
-                .andExpect(jsonPath("$[0].expenses.categoryOfExpense").value("CAR"))
-                .andExpect(jsonPath("$[0].expenses.value").value(500.0))
-                .andExpect(jsonPath("$[0].expenses.description").value("oc"))
-                .andExpect(jsonPath("$[0].expenses.localDate").value("2020-10-26"))
-                .andExpect(jsonPath("$[1].expenses.id").value(10012))
-                .andExpect(jsonPath("$[1].expenses.categoryOfExpense").value("CAR"))
-                .andExpect(jsonPath("$[1].expenses.value").value(500.0))
-                .andExpect(jsonPath("$[1].expenses.description").value("oc"))
-                .andExpect(jsonPath("$[1].expenses.localDate").value("2020-10-26"))
+                .andExpect(jsonPath("$.expenses.[0].id").value(10012))
+                .andExpect(jsonPath("$.expenses.[0].categoryOfExpense").value("CAR"))
+                .andExpect(jsonPath("$.expenses.[0].value").value(500.0))
+                .andExpect(jsonPath("$.expenses.[0].description").value("oc"))
+                .andExpect(jsonPath("$.expenses.[0].localDate").value("2020-10-26"))
+                .andExpect(jsonPath("$.expenses.[1].id").value(10012))
+                .andExpect(jsonPath("$.expenses.[1].categoryOfExpense").value("CAR"))
+                .andExpect(jsonPath("$.expenses.[1].value").value(500.0))
+                .andExpect(jsonPath("$.expenses.[1].description").value("oc"))
+                .andExpect(jsonPath("$.expenses.[1].localDate").value("2020-10-26"))
                 .andExpect(jsonPath("$.total").value(1000));
 
     }
 
-    @Test
-    public void findByCategoryOfExpense_allParamsOk_foundExpenses() throws Exception {
-        ExpenseResponse expenseResponse = ExpenseResponse
-                .builder()
-                .id(10012L)
-                .categoryOfExpense(Category.CAR)
-                .value(500)
-                .description("oc")
-                .localDate(LocalDate.of(2020, 10, 26))
-                .build();
-        ExpenseResponse expenseResponse2 = ExpenseResponse
-                .builder()
-                .id(10012L)
-                .categoryOfExpense(Category.CAR)
-                .value(500)
-                .description("oc")
-                .localDate(LocalDate.of(2020, 10, 26))
-                .build();
-        List<ExpenseResponse> list = List.of(expenseResponse, expenseResponse2);
-        when(service.findByCategoryOfExpense(Category.CAR)).thenReturn(list);
-
-        mockMvc.perform(get("http://localhost:8080/api/category?categoryOfExpense=CAR").contentType(MediaType.APPLICATION_JSON)).andExpect(status().is2xxSuccessful()).andDo(print())
-                .andExpect(jsonPath("$[0].id").value(10012))
-                .andExpect(jsonPath("$[0].categoryOfExpense").value("CAR"))
-                .andExpect(jsonPath("$[0].value").value(500.0))
-                .andExpect(jsonPath("$[0].description").value("oc"))
-                .andExpect(jsonPath("$[0].localDate").value("2020-10-26"))
-                .andExpect(jsonPath("$[1].id").value(10012))
-                .andExpect(jsonPath("$[1].categoryOfExpense").value("CAR"))
-                .andExpect(jsonPath("$[1].value").value(500.0))
-                .andExpect(jsonPath("$[1].description").value("oc"))
-                .andExpect(jsonPath("$[1].localDate").value("2020-10-26"));
-    }
 
     @Test
     public void findByLocalDate_allParamsOk_foundExpenses() throws Exception {

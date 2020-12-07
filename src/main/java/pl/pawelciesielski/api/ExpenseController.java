@@ -42,13 +42,8 @@ public class ExpenseController {
         service.deleteById(id);
     }
 
-    @GetMapping(path = "/api/category")
-    public ResponseEntity<List<ExpenseResponse>> findByCategoryOfExpense(@RequestParam Category categoryOfExpense) {
-        List<ExpenseResponse> expenseResponse = service.findByCategoryOfExpense(categoryOfExpense);
-        return new ResponseEntity<>(expenseResponse, HttpStatus.ACCEPTED);
-    }
 
-    @GetMapping(path = "/api/expensesResponse")
+    @GetMapping(path = "/api/category")
     public ResponseEntity<ExpensesResponse> findAllExpensesByCategoryAndTotalValue(@RequestParam Category categoryOfExpense) {
         ExpensesResponse expenseResponse = service.getExpensesResponse(categoryOfExpense);
         return new ResponseEntity<>(expenseResponse, HttpStatus.ACCEPTED);
