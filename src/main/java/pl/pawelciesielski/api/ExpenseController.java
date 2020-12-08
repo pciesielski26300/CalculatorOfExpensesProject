@@ -1,7 +1,5 @@
 package pl.pawelciesielski.api;
 
-
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -11,9 +9,7 @@ import pl.pawelciesielski.api.dto.ExpenseRequest;
 import pl.pawelciesielski.api.dto.ExpenseResponse;
 import pl.pawelciesielski.api.dto.ExpensesResponse;
 import pl.pawelciesielski.persistance.Category;
-
 import pl.pawelciesielski.service.ExpenseService;
-
 import java.time.LocalDate;
 import java.util.List;
 
@@ -31,7 +27,7 @@ public class ExpenseController {
     }
 
     @GetMapping(path = "/api/expense")
-    public ResponseEntity<ExpenseResponse> findById(@RequestParam long id) {
+    public ResponseEntity<ExpenseResponse> findExpense(@RequestParam long id) {
         ExpenseResponse expense = service.findExpense(id);
         return new ResponseEntity<>(expense, HttpStatus.ACCEPTED);
     }

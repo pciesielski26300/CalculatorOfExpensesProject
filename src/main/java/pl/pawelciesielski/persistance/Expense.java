@@ -1,13 +1,8 @@
 package pl.pawelciesielski.persistance;
 
-
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
-
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.OffsetDateTime;
-import java.util.UUID;
 
 @Data
 @Entity
@@ -27,8 +22,8 @@ public class Expense {
     private double value;
     @Column(name = "DESCRIPTION")
     private String description;
-    @Column(name = "DATA")
-    private LocalDate localDate;
+    @Column(name = "DATE")
+    private LocalDate creationDate;
 
 
 }

@@ -1,29 +1,22 @@
-package pl.pawelciesielski;
+package pl.pawelciesielski.api;
 
-import org.junit.jupiter.api.Assertions;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.ResultActions;
 import pl.pawelciesielski.api.ExpenseController;
 import pl.pawelciesielski.api.dto.ExpenseRequest;
 import pl.pawelciesielski.api.dto.ExpenseResponse;
 import pl.pawelciesielski.api.dto.ExpensesResponse;
 import pl.pawelciesielski.persistance.Category;
-import pl.pawelciesielski.persistance.Expense;
 import pl.pawelciesielski.service.ExpenseService;
-
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
-
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -73,7 +66,7 @@ public class ExpenseControllerTest {
                 .id(10005L)
                 .value(500)
                 .description("oc")
-                .localDate(LocalDate.of(2020, 10, 26))
+                .creationDate(LocalDate.of(2020, 10, 26))
                 .build();
         when(service.findExpense(10005L)).thenReturn(expenseResponse);
         mockMvc
@@ -93,7 +86,7 @@ public class ExpenseControllerTest {
                 .id(10012L)
                 .value(500)
                 .description("oc")
-                .localDate(LocalDate.of(2020, 10, 26))
+                .creationDate(LocalDate.of(2020, 10, 26))
                 .build();
         ExpenseResponse expenseResponse2 = ExpenseResponse
                 .builder()
@@ -101,7 +94,7 @@ public class ExpenseControllerTest {
                 .id(10012L)
                 .value(500)
                 .description("oc")
-                .localDate(LocalDate.of(2020, 10, 26))
+                .creationDate(LocalDate.of(2020, 10, 26))
                 .build();
         List<ExpenseResponse> list = List.of(expenseResponse, expenseResponse2);
 
@@ -137,7 +130,7 @@ public class ExpenseControllerTest {
                 .categoryOfExpense(Category.CAR)
                 .value(500)
                 .description("oc")
-                .localDate(LocalDate.of(2020, 10, 26))
+                .creationDate(LocalDate.of(2020, 10, 26))
                 .build();
         ExpenseResponse expenseResponse2 = ExpenseResponse
                 .builder()
@@ -145,7 +138,7 @@ public class ExpenseControllerTest {
                 .categoryOfExpense(Category.CAR)
                 .value(500)
                 .description("oc")
-                .localDate(LocalDate.of(2020, 10, 26))
+                .creationDate(LocalDate.of(2020, 10, 26))
                 .build();
         List<ExpenseResponse> list = List.of(expenseResponse, expenseResponse2);
         when(service.findByLocalDate(LocalDate.of(2020, 10, 26))).thenReturn(list);

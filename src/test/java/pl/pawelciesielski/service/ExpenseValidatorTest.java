@@ -1,21 +1,12 @@
-package pl.pawelciesielski;
+package pl.pawelciesielski.service;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.test.context.event.annotation.BeforeTestClass;
-import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import pl.pawelciesielski.persistance.Category;
 import pl.pawelciesielski.persistance.Expense;
-import pl.pawelciesielski.persistance.ExpenseRepository;
-import pl.pawelciesielski.service.ExpenseMapper;
-import pl.pawelciesielski.service.ExpenseService;
 import pl.pawelciesielski.service.ExpenseValidator;
-
 import java.time.LocalDate;
-import java.util.NoSuchElementException;
-
-import static org.mockito.Mockito.*;
 
 public class ExpenseValidatorTest {
     private ExpenseValidator validator;

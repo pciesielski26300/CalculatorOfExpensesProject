@@ -26,7 +26,7 @@ public class ExpenseMapper {
                 .categoryOfExpense(expense.getCategoryOfExpense())
                 .description(expense.getDescription())
                 .value(expense.getValue())
-                .localDate(expense.getLocalDate())
+                .creationDate(expense.getCreationDate())
                 .build();
     }
 

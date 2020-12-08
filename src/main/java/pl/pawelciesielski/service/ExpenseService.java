@@ -1,7 +1,6 @@
 package pl.pawelciesielski.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.pawelciesielski.api.dto.ExpenseRequest;
 import pl.pawelciesielski.api.dto.ExpenseResponse;
@@ -9,8 +8,6 @@ import pl.pawelciesielski.api.dto.ExpensesResponse;
 import pl.pawelciesielski.persistance.Category;
 import pl.pawelciesielski.persistance.Expense;
 import pl.pawelciesielski.persistance.ExpenseRepository;
-
-
 import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -34,13 +31,13 @@ public class ExpenseService {
 
     public void save(ExpenseRequest expenseRequest) {
         Expense expense = mapper.map(expenseRequest);
-        expense.setLocalDate(LocalDate.now());
+        expense.setCreationDate(LocalDate.now());
         save(expense);
     }
 
 
     public Expense findById(Long id) {
-        return expenseRepository.findById(id).orElseThrow();
+        return expenseRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Expense with that id doesn't exist!"));
     }
 
     public ExpenseResponse findExpense(Long id) {
@@ -54,9 +51,6 @@ public class ExpenseService {
         }
         expenseRepository.deleteById(id);
     }
-
-
-
 
     public List<ExpenseResponse> findByCategoryOfExpense(Category categoryOfExpense) {
         List<Expense> byCategoryOfExpense = expenseRepository.findByCategoryOfExpense(categoryOfExpense);

@@ -6,8 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import pl.pawelciesielski.persistance.Category;
 
-import javax.persistence.Column;
-import java.time.OffsetDateTime;
 
 @Data
 @AllArgsConstructor

@@ -1,10 +1,8 @@
-package pl.pawelciesielski;
+package pl.pawelciesielski.service;
 
-import org.apache.tomcat.jni.Local;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import pl.pawelciesielski.api.dto.ExpenseResponse;
 import pl.pawelciesielski.persistance.Category;
 import pl.pawelciesielski.persistance.Expense;
@@ -14,7 +12,6 @@ import pl.pawelciesielski.service.ExpenseService;
 import pl.pawelciesielski.service.ExpenseValidator;
 
 import java.time.LocalDate;
-import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -38,28 +35,28 @@ public class ExpenseServiceTest {
 
     @Test
     public void save_allParamsOk_savedCorrectly() {
-        //given
+
+
         Expense expense = new Expense(5L, Category.CAR, 1000.0, "Koła", LocalDate.of(2020, 12, 20));
 
-        //when/then
         service.save(expense);
+        verify(repository, times(1)).save(expense);
     }
 
     @Test
     public void save_nullCategory_throwsException() {
-        //given
+
         Expense expense = new Expense(5L, null, 1000.0, "Koła", LocalDate.of(2020, 12, 20));
 
-        //when/then
         Assertions.assertThrows(IllegalArgumentException.class, () -> service.save(expense));
     }
 
     @Test
     public void save_totalSumIsZero_throwsException() {
-        //given
+
         Expense expense = new Expense(5L, Category.CAR, 0, "Koła", LocalDate.of(2020, 12, 20));
 
-        //when/then
+
         Assertions.assertThrows(IllegalArgumentException.class, () -> service.save(expense));
     }
 
@@ -67,22 +64,22 @@ public class ExpenseServiceTest {
     public void save_descriptionIsNull_throwsException() {
         Expense expense = new Expense(5L, Category.CAR, 5, null, LocalDate.of(2020, 12, 20));
 
-        //when/then
+
         Assertions.assertThrows(IllegalArgumentException.class, () -> service.save(expense));
     }
 
     @Test
     public void save_dateIsNull_throwsException() {
-        //given
+
         Expense expense = new Expense(5L, Category.CAR, 5, "Koła", null);
 
-        //when/then
+
         Assertions.assertThrows(IllegalArgumentException.class, () -> service.save(expense));
     }
 
     @Test
     public void findById_correctId_foundExpense() {
-        //given
+
         Expense expense = new Expense(5L, Category.CAR, 5, "Koła", LocalDate.of(2020, 12, 20));
 
         when(repository.findById(5L)).thenReturn(Optional.of(expense));
@@ -96,7 +93,8 @@ public class ExpenseServiceTest {
     @Test
     public void findById_incorrectId_throwsException() {
         long id = 5L;
-        Expense expense = new Expense(id, Category.CAR, 5, "Kasztan", LocalDate.now());
+        Expense expense = new Expense(id, Category.CAR, 5, "Kasztan", LocalDate.of(2000,12,20));
+        when(repository.findById(id)).thenThrow(new NoSuchElementException());
 
 
         Assertions.assertThrows(NoSuchElementException.class, () -> service.findById(id));
@@ -142,7 +140,7 @@ public class ExpenseServiceTest {
     }
 
     @Test
-    public void findByLocalDate_correctLocalDate_foundExpenses(){
+    public void findByLocalDate_correctLocalDate_foundExpenses() {
         LocalDate localDate = LocalDate.of(2020, 12, 20);
         Expense expense = new Expense(52L, Category.CAR, 523, "Koła", localDate);
         Expense expense2 = new Expense(52L, Category.CAR, 523, "Koła", localDate);
