@@ -5,12 +5,12 @@ The simple tracker of expenses, created with Spring, RestAPI,  database PostgreS
  - maven
  - postgresql
 ### How to run
-- > mvnw spring-boot:run
+- mvnw spring-boot:run
 ### Configuration
 spring:
-  datasource:
-    username: "<USERNAME>"
-    password: "<PASSWORD>"
-    url: "<JDBC_URL>"
-    driverclass: "<DRIVER>"
+  datasource:*separate paragraph*
+    username: "<USERNAME>"*separate paragraph*
+    password: "<PASSWORD>"*separate paragraph*
+    url: "<JDBC_URL>"*separate paragraph*
+    driverclass: "<DRIVER>"*separate paragraph*
 
