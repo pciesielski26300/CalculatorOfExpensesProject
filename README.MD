@@ -8,7 +8,7 @@ The simple tracker of expenses, created with Spring, RestAPI,  database PostgreS
 - mvnw spring-boot:run
 ### Configuration
 spring:\
-  datasource: \
+  datasource: 
     username: "<USERNAME>"  
     password: "<PASSWORD>"  
     url: "<JDBC_URL>"  
