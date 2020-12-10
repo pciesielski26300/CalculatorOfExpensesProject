@@ -12,4 +12,4 @@ spring:\
     username: "<USERNAME>"\
     password: "<PASSWORD>"\
     url: "<JDBC_URL>"\
-    driverclass: "<DRIVER>"\
+    driverclass: "<DRIVER>"
