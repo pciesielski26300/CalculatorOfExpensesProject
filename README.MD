@@ -9,7 +9,7 @@ The simple tracker of expenses, created with Spring, RestAPI,  database PostgreS
 ### Configuration
 spring: \
   datasource: 
-    username: "<USERNAME>"
-    password: "<PASSWORD>"  
-    url: "<JDBC_URL>"
- driverclass: "<DRIVER>"
+      username: "<USERNAME>"
+      password: "<PASSWORD>"  
+      url: "<JDBC_URL>"
+   driverclass: "<DRIVER>"
