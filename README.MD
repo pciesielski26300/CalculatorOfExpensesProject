@@ -7,7 +7,7 @@ The simple tracker of expenses, created with Spring, RestAPI,  database PostgreS
 ### How to run
 - mvnw spring-boot:run
 ### Configuration
-spring:\
+spring:
   datasource: 
     username: "<USERNAME>"  
     password: "<PASSWORD>"  
