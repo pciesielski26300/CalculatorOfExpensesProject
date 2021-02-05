@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class Expense {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "EXPENSE_ID")
     private Long id;
     @Column(name = "CATEGORY")
@@ -22,8 +22,8 @@ public class Expense {
     private double value;
     @Column(name = "DESCRIPTION")
     private String description;
-    @Column(name = "DATE")
-    private LocalDate creationDate;
+    @Column(name = "CREATION_DATE")
+    private LocalDate localDate;
 
 
 }
