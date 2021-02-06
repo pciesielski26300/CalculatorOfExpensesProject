@@ -4,7 +4,7 @@ package pl.pawelciesielski.service;
 import org.springframework.stereotype.Component;
 import pl.pawelciesielski.api.dto.ExpenseRequest;
 import pl.pawelciesielski.api.dto.ExpenseResponse;
-import pl.pawelciesielski.persistance.Expense;
+import pl.pawelciesielski.persistence.Expense;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,7 +26,7 @@ public class ExpenseMapper {
                 .categoryOfExpense(expense.getCategoryOfExpense())
                 .description(expense.getDescription())
                 .value(expense.getValue())
-                .creationDate(expense.getCreationDate())
+                .localDate(expense.getLocalDate())
                 .build();
     }
 

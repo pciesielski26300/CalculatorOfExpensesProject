@@ -12,13 +12,13 @@ import java.util.stream.Stream;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ExpensesResponse {
+public class MultipleExpensesResponse {
     private List<ExpenseResponse> expenses;
-    public double getTotal(){
-        Stream<Double> doubleStream = expenses
+
+    public double getTotal() {
+        return expenses
                 .stream()
-                .map(ExpenseResponse::getValue);
-        return doubleStream
+                .map(ExpenseResponse::getValue)
                 .reduce(Double::sum)
                 .orElse(0D);
 

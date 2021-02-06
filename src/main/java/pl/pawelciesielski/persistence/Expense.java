@@ -1,4 +1,4 @@
-package pl.pawelciesielski.persistance;
+package pl.pawelciesielski.persistence;
 
 import lombok.*;
 import javax.persistence.*;

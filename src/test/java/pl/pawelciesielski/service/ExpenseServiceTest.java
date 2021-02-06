@@ -4,12 +4,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pl.pawelciesielski.api.dto.ExpenseResponse;
-import pl.pawelciesielski.persistance.Category;
-import pl.pawelciesielski.persistance.Expense;
-import pl.pawelciesielski.persistance.ExpenseRepository;
-import pl.pawelciesielski.service.ExpenseMapper;
-import pl.pawelciesielski.service.ExpenseService;
-import pl.pawelciesielski.service.ExpenseValidator;
+import pl.pawelciesielski.persistence.Category;
+import pl.pawelciesielski.persistence.Expense;
+import pl.pawelciesielski.persistence.ExpenseRepository;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -43,39 +40,11 @@ public class ExpenseServiceTest {
         verify(repository, times(1)).save(expense);
     }
 
-    @Test
-    public void save_nullCategory_throwsException() {
-
-        Expense expense = new Expense(5L, null, 1000.0, "Koła", LocalDate.of(2020, 12, 20));
-
-        Assertions.assertThrows(IllegalArgumentException.class, () -> service.save(expense));
-    }
-
-    @Test
-    public void save_totalSumIsZero_throwsException() {
-
-        Expense expense = new Expense(5L, Category.CAR, 0, "Koła", LocalDate.of(2020, 12, 20));
 
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> service.save(expense));
-    }
-
-    @Test
-    public void save_descriptionIsNull_throwsException() {
-        Expense expense = new Expense(5L, Category.CAR, 5, null, LocalDate.of(2020, 12, 20));
 
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> service.save(expense));
-    }
 
-    @Test
-    public void save_dateIsNull_throwsException() {
-
-        Expense expense = new Expense(5L, Category.CAR, 5, "Koła", null);
-
-
-        Assertions.assertThrows(IllegalArgumentException.class, () -> service.save(expense));
-    }
 
     @Test
     public void findById_correctId_foundExpense() {

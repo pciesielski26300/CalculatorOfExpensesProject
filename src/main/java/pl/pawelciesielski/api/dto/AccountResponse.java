@@ -4,18 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import pl.pawelciesielski.persistence.Category;
+import pl.pawelciesielski.persistence.Expense;
 
+import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class
-ExpenseRequest {
-    private Long id;
-    private Category categoryOfExpense;
-    private double value;
-    private String description;
-
+public class AccountResponse {
+    private String login;
+    private List<Expense> expensesList;
 }

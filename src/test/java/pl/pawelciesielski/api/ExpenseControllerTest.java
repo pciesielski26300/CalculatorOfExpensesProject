@@ -9,14 +9,15 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import pl.pawelciesielski.api.ExpenseController;
 import pl.pawelciesielski.api.dto.ExpenseRequest;
 import pl.pawelciesielski.api.dto.ExpenseResponse;
-import pl.pawelciesielski.api.dto.ExpensesResponse;
-import pl.pawelciesielski.persistance.Category;
+import pl.pawelciesielski.api.dto.MultipleExpensesResponse;
+import pl.pawelciesielski.persistence.Category;
 import pl.pawelciesielski.service.ExpenseService;
+
 import java.time.LocalDate;
 import java.util.List;
+
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -30,7 +31,7 @@ public class ExpenseControllerTest {
     @MockBean
     private ExpenseService service;
     @MockBean
-    private ExpensesResponse expensesResponse;
+    private MultipleExpensesResponse multipleExpensesResponse;
 
 
     @Test
@@ -66,7 +67,7 @@ public class ExpenseControllerTest {
                 .id(10005L)
                 .value(500)
                 .description("oc")
-                .creationDate(LocalDate.of(2020, 10, 26))
+                .localDate(LocalDate.of(2020, 10, 26))
                 .build();
         when(service.findExpense(10005L)).thenReturn(expenseResponse);
         mockMvc
@@ -83,36 +84,36 @@ public class ExpenseControllerTest {
         ExpenseResponse expenseResponse = ExpenseResponse
                 .builder()
                 .categoryOfExpense(Category.CAR)
-                .id(10012L)
+                .id(3L)
                 .value(500)
                 .description("oc")
-                .creationDate(LocalDate.of(2020, 10, 26))
+                .localDate(LocalDate.of(2020, 10, 26))
                 .build();
         ExpenseResponse expenseResponse2 = ExpenseResponse
                 .builder()
                 .categoryOfExpense(Category.CAR)
-                .id(10012L)
+                .id(3L)
                 .value(500)
                 .description("oc")
-                .creationDate(LocalDate.of(2020, 10, 26))
+                .localDate(LocalDate.of(2020, 10, 26))
                 .build();
         List<ExpenseResponse> list = List.of(expenseResponse, expenseResponse2);
 
-        ExpensesResponse expensesResponse = ExpensesResponse
+        MultipleExpensesResponse multipleExpensesResponse = MultipleExpensesResponse
                 .builder()
                 .expenses(list)
                 .build();
 
-        when(service.getExpensesResponse(Category.CAR)).thenReturn(expensesResponse);
+        when(service.getExpensesResponse(Category.CAR)).thenReturn(multipleExpensesResponse);
 
 
-        mockMvc.perform(get("http://localhost:8080/api/expensesResponse?categoryOfExpense=CAR").contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.expenses.[0].id").value(10012))
+        mockMvc.perform(get("http://localhost:8080/api/category?categoryOfExpense=CAR").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.expenses.[0].id").value(3))
                 .andExpect(jsonPath("$.expenses.[0].categoryOfExpense").value("CAR"))
                 .andExpect(jsonPath("$.expenses.[0].value").value(500.0))
                 .andExpect(jsonPath("$.expenses.[0].description").value("oc"))
                 .andExpect(jsonPath("$.expenses.[0].localDate").value("2020-10-26"))
-                .andExpect(jsonPath("$.expenses.[1].id").value(10012))
+                .andExpect(jsonPath("$.expenses.[1].id").value(3))
                 .andExpect(jsonPath("$.expenses.[1].categoryOfExpense").value("CAR"))
                 .andExpect(jsonPath("$.expenses.[1].value").value(500.0))
                 .andExpect(jsonPath("$.expenses.[1].description").value("oc"))
@@ -130,7 +131,7 @@ public class ExpenseControllerTest {
                 .categoryOfExpense(Category.CAR)
                 .value(500)
                 .description("oc")
-                .creationDate(LocalDate.of(2020, 10, 26))
+                .localDate(LocalDate.of(2020, 10, 26))
                 .build();
         ExpenseResponse expenseResponse2 = ExpenseResponse
                 .builder()
@@ -138,7 +139,7 @@ public class ExpenseControllerTest {
                 .categoryOfExpense(Category.CAR)
                 .value(500)
                 .description("oc")
-                .creationDate(LocalDate.of(2020, 10, 26))
+                .localDate(LocalDate.of(2020, 10, 26))
                 .build();
         List<ExpenseResponse> list = List.of(expenseResponse, expenseResponse2);
         when(service.findByLocalDate(LocalDate.of(2020, 10, 26))).thenReturn(list);
@@ -155,13 +156,14 @@ public class ExpenseControllerTest {
                 .andExpect(jsonPath("$[1].description").value("oc"))
                 .andExpect(jsonPath("$[1].localDate").value("2020-10-26"));
     }
+
     @Test
     public void delete_allParamsOk_deletedCorrectly() throws Exception {
-     mockMvc.perform(delete("/api/expense/10007").contentType(MediaType.APPLICATION_JSON))
-             .andExpect(status().is2xxSuccessful())
-             .andDo(print());
+        mockMvc.perform(delete("/api/expense/10007").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().is2xxSuccessful())
+                .andDo(print());
 
 
-     verify(service, times(1)).deleteById(10007L);
+        verify(service, times(1)).deleteById(10007L);
     }
 }

@@ -1,4 +1,4 @@
-package pl.pawelciesielski.persistance;
+package pl.pawelciesielski.persistence;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @Entity
@@ -23,6 +23,9 @@ public class Account {
     private String login;
     @Column(name = "PASSWORD")
     private String password;
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "USER_ID")
+    private List<Expense> expensesList;
 
 
 }

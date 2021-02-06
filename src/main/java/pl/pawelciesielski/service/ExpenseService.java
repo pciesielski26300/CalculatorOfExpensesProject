@@ -4,10 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.pawelciesielski.api.dto.ExpenseRequest;
 import pl.pawelciesielski.api.dto.ExpenseResponse;
-import pl.pawelciesielski.api.dto.ExpensesResponse;
-import pl.pawelciesielski.persistance.Category;
-import pl.pawelciesielski.persistance.Expense;
-import pl.pawelciesielski.persistance.ExpenseRepository;
+import pl.pawelciesielski.api.dto.MultipleExpensesResponse;
+import pl.pawelciesielski.persistence.Category;
+import pl.pawelciesielski.persistence.Expense;
+import pl.pawelciesielski.persistence.ExpenseRepository;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -31,7 +31,7 @@ public class ExpenseService {
 
     public void save(ExpenseRequest expenseRequest) {
         Expense expense = mapper.map(expenseRequest);
-        expense.setCreationDate(LocalDate.now());
+        expense.setLocalDate(LocalDate.now());
         save(expense);
     }
 
@@ -57,9 +57,9 @@ public class ExpenseService {
         return mapper.map(byCategoryOfExpense);
     }
 
-    public ExpensesResponse getExpensesResponse(Category categoryOfExpense) {
+    public MultipleExpensesResponse getExpensesResponse(Category categoryOfExpense) {
         List<ExpenseResponse> byCategoryOfExpense = findByCategoryOfExpense(categoryOfExpense);
-        return ExpensesResponse
+        return MultipleExpensesResponse
                 .builder()
                 .expenses(byCategoryOfExpense)
                 .build();

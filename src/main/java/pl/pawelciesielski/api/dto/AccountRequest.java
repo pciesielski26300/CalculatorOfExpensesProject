@@ -4,18 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import pl.pawelciesielski.persistence.Category;
-
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class
-ExpenseRequest {
-    private Long id;
-    private Category categoryOfExpense;
-    private double value;
-    private String description;
-
+public class AccountRequest {
+    private String login;
+    private String password;
 }

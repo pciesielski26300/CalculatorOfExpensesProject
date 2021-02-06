@@ -3,9 +3,9 @@ package pl.pawelciesielski.service;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import pl.pawelciesielski.persistance.Category;
-import pl.pawelciesielski.persistance.Expense;
-import pl.pawelciesielski.service.ExpenseValidator;
+import pl.pawelciesielski.persistence.Category;
+import pl.pawelciesielski.persistence.Expense;
+
 import java.time.LocalDate;
 
 public class ExpenseValidatorTest {

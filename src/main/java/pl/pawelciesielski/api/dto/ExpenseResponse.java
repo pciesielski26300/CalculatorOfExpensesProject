@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import pl.pawelciesielski.persistance.Category;
+import pl.pawelciesielski.persistence.Category;
 import java.time.LocalDate;
 
 
@@ -19,7 +19,7 @@ public class ExpenseResponse {
     private Category categoryOfExpense;
     private double value;
     private String description;
-    private LocalDate creationDate;
+    private LocalDate localDate;
 
 
 }

@@ -6,9 +6,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pl.pawelciesielski.api.dto.ExpenseRequest;
 import pl.pawelciesielski.api.dto.ExpenseResponse;
-import pl.pawelciesielski.persistance.Category;
-import pl.pawelciesielski.persistance.Expense;
-import pl.pawelciesielski.service.ExpenseMapper;
+import pl.pawelciesielski.persistence.Category;
+import pl.pawelciesielski.persistence.Expense;
 
 import java.time.LocalDate;
 import java.util.List;
