@@ -5,9 +5,11 @@ import org.springframework.stereotype.Service;
 import pl.pawelciesielski.api.dto.ExpenseRequest;
 import pl.pawelciesielski.api.dto.ExpenseResponse;
 import pl.pawelciesielski.api.dto.MultipleExpensesResponse;
+import pl.pawelciesielski.persistence.Account;
 import pl.pawelciesielski.persistence.Category;
 import pl.pawelciesielski.persistence.Expense;
 import pl.pawelciesielski.persistence.ExpenseRepository;
+
 import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -19,9 +21,7 @@ public class ExpenseService {
     private final ExpenseMapper mapper;
     private final ExpenseRepository expenseRepository;
     private final ExpenseValidator expenseValidator;
-
-
-
+    private final AccountService accountService;
 
 
     public void save(Expense expense) {
@@ -29,7 +29,8 @@ public class ExpenseService {
         expenseRepository.save(expense);
     }
 
-    public void save(ExpenseRequest expenseRequest) {
+    public void save(ExpenseRequest expenseRequest, String login) {
+        Account account = accountService.findByLogin(login);
         Expense expense = mapper.map(expenseRequest);
         expense.setLocalDate(LocalDate.now());
         save(expense);

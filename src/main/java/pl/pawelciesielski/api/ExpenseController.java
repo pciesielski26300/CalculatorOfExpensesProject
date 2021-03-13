@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 import pl.pawelciesielski.api.dto.ExpenseRequest;
 import pl.pawelciesielski.api.dto.ExpenseResponse;
@@ -23,8 +25,9 @@ public class ExpenseController {
 
     @PostMapping(path = "/expense")
     @ResponseStatus(code = HttpStatus.ACCEPTED)
-    public void save(@RequestBody ExpenseRequest expenseRequest) {
-        service.save(expenseRequest);
+    public void save(@RequestBody ExpenseRequest expenseRequest, @AuthenticationPrincipal User user) {
+
+        service.save(expenseRequest, user.getUsername());
     }
 
     @GetMapping(path = "/expense")

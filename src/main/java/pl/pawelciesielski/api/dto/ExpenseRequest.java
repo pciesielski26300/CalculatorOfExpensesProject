@@ -13,7 +13,6 @@ import pl.pawelciesielski.persistence.Category;
 @Builder
 public class
 ExpenseRequest {
-    private Long id;
     private Category categoryOfExpense;
     private double value;
     private String description;

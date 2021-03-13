@@ -16,4 +16,8 @@ public class AccountService {
         Account account = accountMapper.map(accountRequest);
         accountRepository.save(account);
     }
+
+    public Account findByLogin(String login) {
+        return accountRepository.findByLogin(login).orElseThrow(() -> new IllegalArgumentException("User with that login doesn't exist"));
+    }
 }
