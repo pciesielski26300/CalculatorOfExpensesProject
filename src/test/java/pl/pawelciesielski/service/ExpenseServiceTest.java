@@ -3,6 +3,7 @@ package pl.pawelciesielski.service;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.security.core.userdetails.User;
 import pl.pawelciesielski.api.dto.ExpenseResponse;
 import pl.pawelciesielski.persistence.Category;
 import pl.pawelciesielski.persistence.Expense;
@@ -20,6 +21,7 @@ public class ExpenseServiceTest {
     private ExpenseService service;
     private ExpenseMapper mapper;
     private ExpenseValidator validator;
+    private User user;
 
 
     @BeforeEach
@@ -34,7 +36,7 @@ public class ExpenseServiceTest {
     public void save_allParamsOk_savedCorrectly() {
 
 
-        Expense expense = new Expense(5L, Category.CAR, 1000.0, "Koła", LocalDate.of(2020, 12, 20));
+        Expense expense = new Expense(5L, Category.CAR, 1000.0, "Koła", LocalDate.of(2020, 12, 20), user);
 
         service.save(expense);
         verify(repository, times(1)).save(expense);
@@ -49,7 +51,7 @@ public class ExpenseServiceTest {
     @Test
     public void findById_correctId_foundExpense() {
 
-        Expense expense = new Expense(5L, Category.CAR, 5, "Koła", LocalDate.of(2020, 12, 20));
+        Expense expense = new Expense(5L, Category.CAR, 5, "Koła", LocalDate.of(2020, 12, 20), user);
 
         when(repository.findById(5L)).thenReturn(Optional.of(expense));
 
@@ -62,7 +64,7 @@ public class ExpenseServiceTest {
     @Test
     public void findById_incorrectId_throwsException() {
         long id = 5L;
-        Expense expense = new Expense(id, Category.CAR, 5, "Kasztan", LocalDate.of(2000,12,20));
+        Expense expense = new Expense(id, Category.CAR, 5, "Kasztan", LocalDate.of(2000,12,20), user);
         when(repository.findById(id)).thenThrow(new NoSuchElementException());
 
 
@@ -93,8 +95,8 @@ public class ExpenseServiceTest {
     @Test
     public void findByCategoryOfExpense_correctCategory_foundExpenses() {
         Category other = Category.OTHER;
-        Expense expense = new Expense(52L, other, 523, "Koła", LocalDate.of(2020, 12, 20));
-        Expense expense2 = new Expense(52L, other, 523, "Koła", LocalDate.of(2020, 12, 20));
+        Expense expense = new Expense(52L, other, 523, "Koła", LocalDate.of(2020, 12, 20), user);
+        Expense expense2 = new Expense(52L, other, 523, "Koła", LocalDate.of(2020, 12, 20), user);
         List<Expense> expenses = List.of(expense, expense2);
         ExpenseResponse expenseResponse = new ExpenseResponse(52L, other, 523, "Koła", LocalDate.of(2000, 12, 20));
         ExpenseResponse expenseResponse2 = new ExpenseResponse(52L, other, 523, "Koła", LocalDate.of(2000, 12, 20));
@@ -111,8 +113,8 @@ public class ExpenseServiceTest {
     @Test
     public void findByLocalDate_correctLocalDate_foundExpenses() {
         LocalDate localDate = LocalDate.of(2020, 12, 20);
-        Expense expense = new Expense(52L, Category.CAR, 523, "Koła", localDate);
-        Expense expense2 = new Expense(52L, Category.CAR, 523, "Koła", localDate);
+        Expense expense = new Expense(52L, Category.CAR, 523, "Koła", localDate, user);
+        Expense expense2 = new Expense(52L, Category.CAR, 523, "Koła", localDate, user);
         List<Expense> expenses = List.of(expense, expense2);
         ExpenseResponse expenseResponse = new ExpenseResponse(52L, Category.CAR, 523, "Koła", localDate);
         ExpenseResponse expenseResponse2 = new ExpenseResponse(52L, Category.CAR, 523, "Koła", localDate);

@@ -4,6 +4,7 @@ package pl.pawelciesielski.service;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.security.core.userdetails.User;
 import pl.pawelciesielski.api.dto.ExpenseRequest;
 import pl.pawelciesielski.api.dto.ExpenseResponse;
 import pl.pawelciesielski.persistence.Category;
@@ -14,7 +15,7 @@ import java.util.List;
 
 public class ExpenseMapperTest {
     private ExpenseMapper mapper;
-
+    private User user;
 
     @BeforeEach
     public void setup() {
@@ -24,8 +25,8 @@ public class ExpenseMapperTest {
 
     @Test
     public void expense_map_mappedCorrectly() {
-        ExpenseRequest expenseRequest = new ExpenseRequest(null, Category.CAR, 500, "test");
-        Expense expected = new Expense(null, Category.CAR, 500, "test", null);
+        ExpenseRequest expenseRequest = new ExpenseRequest(Category.CAR, 500, "test");
+        Expense expected = new Expense(null, Category.CAR, 500, "test", null, user);
         Expense actual = mapper.map(expenseRequest);
 
         Assertions.assertEquals(actual, expected);
@@ -33,7 +34,7 @@ public class ExpenseMapperTest {
 
     @Test
     public void expenseResponse_map_mappedCorrectly() {
-        Expense expense = new Expense(null, Category.CAR, 500, "test", LocalDate.of(2000, 12, 20));
+        Expense expense = new Expense(null, Category.CAR, 500, "test", LocalDate.of(2000, 12, 20), user);
         ExpenseResponse expected = new ExpenseResponse(null, Category.CAR, 500, "test", LocalDate.of(2000, 12, 20));
         ExpenseResponse actual = mapper.map(expense);
 
@@ -45,8 +46,8 @@ public class ExpenseMapperTest {
         ExpenseResponse expenseResponse = new ExpenseResponse(null, Category.CAR, 500, "test", LocalDate.of(2000, 12, 20));
         ExpenseResponse expenseResponse2 = new ExpenseResponse(null, Category.CAR, 500, "test", LocalDate.of(2000, 12, 20));
         List<ExpenseResponse> expectedList = List.of(expenseResponse, expenseResponse2);
-        Expense expense = new Expense(null, Category.CAR, 500, "test", LocalDate.of(2000, 12, 20));
-        Expense expense2 = new Expense(null, Category.CAR, 500, "test", LocalDate.of(2000, 12, 20));
+        Expense expense = new Expense(null, Category.CAR, 500, "test", LocalDate.of(2000, 12, 20), user);
+        Expense expense2 = new Expense(null, Category.CAR, 500, "test", LocalDate.of(2000, 12, 20), user);
         List<Expense> mappedList = List.of(expense, expense2);
         List<ExpenseResponse> actualList = mapper.map(mappedList);
 

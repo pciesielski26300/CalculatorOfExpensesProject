@@ -1,6 +1,8 @@
 package pl.pawelciesielski.persistence;
 
 import lombok.*;
+import org.springframework.security.core.userdetails.User;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 
@@ -24,6 +26,8 @@ public class Expense {
     private String description;
     @Column(name = "CREATION_DATE")
     private LocalDate localDate;
+    //many to one, joincolumn na pewno
+    private Account account;
 
 
 }
