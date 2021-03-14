@@ -4,11 +4,13 @@ package pl.pawelciesielski.api;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import pl.pawelciesielski.api.dto.ExpenseRequest;
@@ -27,7 +29,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(ExpenseController.class)
+@AutoConfigureMockMvc(addFilters = false)
 public class ExpenseControllerTest {
+
     @Autowired
     private MockMvc mockMvc;
     @MockBean
@@ -38,6 +42,7 @@ public class ExpenseControllerTest {
 
 
     @Test
+    @WithMockUser(username = "user")
     public void save_allParamsOk_savedCorrectly() throws Exception {
         mockMvc.perform(
                 post("/api/expense")
@@ -57,13 +62,9 @@ public class ExpenseControllerTest {
                 .value(2323)
                 .description("siema")
                 .build();
-        UserDetails user = User
-                .builder()
-                .username("test")
-                .password("test")
-                .build();
 
-        verify(service, times(1)).save(expense, user.getUsername());
+
+        verify(service, times(1)).save(expense, "user");
     }
 
 
